@@ -1,0 +1,242 @@
+/* Generic styles */
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  color: #868686;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #03A9F4;
+  font-family: 'Lato', sans-serif;
+}
+
+button {
+  border-radius: 5px;
+  color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.1em;
+  background: #34d99c;
+  padding: 10px 20px 10px 20px;
+  border-style: none;
+}
+
+button:hover {
+  background: #3ABF8C;
+  cursor: pointer;
+}
+
+button:focus {
+  outline-width: 0;
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  text-align: center;
+}
+
+/* Animations and Effects */
+
+.blur {
+  -webkit-filter: blur(10px);
+          filter: blur(10px);
+}
+
+.fadeIn {
+  animation-duration: .25s;
+  animation-name: fadeIn;
+  animation-fill-mode: forwards;
+}
+
+.fadeOut {
+  animation-duration: .25s;
+  animation-name: fadeOut;
+  animation-fill-mode: forwards;
+}
+
+.strike {
+  position: relative;
+}
+
+.strike:after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: black;
+  animation-name: strike;
+  animation-duration: .1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes strike{
+  0%   { width : 0; }
+  100% { width: 100%; }
+}
+
+/* Specific styles */
+
+.timer {
+  height: 50%;
+  display: inherit;
+  flex-direction: column;
+  align-items: center;
+  color: #FFFFFF;
+}
+
+.time {
+  display: inherit;
+  height: 75%;
+  font-size: 10em;
+  font-weight: bolder;
+  align-items: center;
+}
+
+.colon {
+  font-weight: 100;
+}
+
+.notes {
+  width: 100%;
+  display: inherit;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  background-color: #FFFFFF;
+}
+
+.notesList {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.2em;
+  height: 50%;
+  width: 90%;
+  overflow: auto;
+  text-align: center;
+}
+
+.notesList li {
+  margin-left: 36.84px;
+  padding: 2px 0px;
+}
+
+.complete, .delete {
+  color: white;
+  border-radius: 50%;
+  padding: 0 5px;
+  font-size: .8em;
+  margin: 0 2px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.complete {
+  background-color: #34d99c;
+}
+
+.delete {
+  background-color: #FF7D7D;
+}
+
+.noteForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 75%;
+  height: 10%;
+  border-radius: .5em;
+  background-color: rgba(0, 0, 0, .7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  visibility: hidden;
+}
+
+.noteFormInput {
+  background-color: transparent;
+  border-width: 0;
+  align-self: stretch;
+  width: 90%;
+  margin: 0 5%;
+  font-size: 2em;
+  font-weight: 200;
+  color: white;
+}
+
+.noteFormInput:focus {
+  align-self: stretch;
+  outline-width: 0;
+  outline-color: none;
+  color: white;
+  opacity: initial;
+  font-weight: 200;
+}
+
+.submitNoteButton {
+  position: absolute;
+  left: -9999px;
+}
+
+.instructions {
+  font-size: 1.5em;
+}
+
+/* Media Queries for different screen sizes */
+
+@media only screen and (min-width : 1024px) {
+
+  html, body {
+    flex-direction: row;
+  }
+
+  .timer {
+    height: 100%;
+    width: 50%;
+  }
+
+  .time {
+    font-size: 12em;
+  }
+
+  .notes {
+    height: 100%;
+    width: 50%;
+  }
+
+  .notesList {
+    font-size: 1.4em
+  }
+
+}
