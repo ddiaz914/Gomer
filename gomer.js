@@ -91,12 +91,16 @@ $(document).ready(function(){
   // Automatically hide the Notes list as soon as the page loads
   $(".notesList").hide();
 
-  // Whenever a note is hovered on, the Complete and Delete icons appear
+  // Whenever a note is hovered on, the Complete and Delete icons appear, and disappear
   $(".notesList").on("mouseenter", ".todo", function(){
+    // Removes the fadeOut class just in case it already has the class
     $(this).children().not(".todoText").removeClass("fadeOut");
+    // Adds a class of fadeIn
     $(this).children().not(".todoText").addClass("fadeIn");
   }).on("mouseleave", ".todo", function(){
+    // Removes the fadeIn class just in case it already has the class
     $(this).children().not(".todoText").removeClass("fadeIn");
+    // Adds a class of fadeIn
     $(this).children().not(".todoText").addClass("fadeOut");
   });
 
@@ -138,16 +142,22 @@ $(document).ready(function(){
 
     // Append the value from the form into a new list item on the page
     $(".notesList").append("<li class=\"todo\" ><span class=\"todoText\">" + $(".noteFormInput").val() + "</span><span class=\"complete\">√</span><span class=\"delete\">X</span></li>");
-    $(".timer, .notes").removeClass("blur");
-    $(".noteForm > form").trigger("reset");
+    // Hide the form
     $(".noteForm").css("visibility","hidden");
+    // Remove the blur class
+    $(".timer, .notes").removeClass("blur");
+    // Reset the form, jus tin case there was information entered
+    $(".noteForm > form").trigger("reset");
   });
 
   // If the form is no longer in focus, the form disappears and the blur effect is removed
   $(".noteForm").on("focusout", function(){
+    // Hide the form
     $(this).css("visibility","hidden");
-    $(".noteForm > form").trigger("reset");
+    // Remove the blur class
     $(".timer, .notes").removeClass("blur");
+    // Reset the form, jus tin case there was information entered
+    $(".noteForm > form").trigger("reset");
   });
 
 });
