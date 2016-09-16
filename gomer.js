@@ -9,6 +9,9 @@ $(document).ready(function(){
   // Captures the interval of the window timers, so that the intervals do not compound on each other
   var timerInterval = 0;
 
+  // Load the sound for when the countdown hits 0
+  var noise = new Audio("gong.mp3");
+
   // Begins the timer, and checks whether it has reached zero
   function countDown(){
     if(secondsSecondDigit > 0){
@@ -29,7 +32,6 @@ $(document).ready(function(){
 
     // Checks to see if the count down has reached 0, and if it HAS, play sound
     if(minutesFirstDigit + minutesSecondDigit + secondsFirstDigit + secondsSecondDigit === 0){
-      var noise = new Audio("gong.mp3");
       noise.play();
       window.clearInterval(timerInterval);
     }
