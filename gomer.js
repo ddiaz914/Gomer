@@ -9,9 +9,6 @@ $(document).ready(function(){
   // Captures the interval of the window timers, so that the intervals do not compound on each other
   var timerInterval = 0;
 
-  // Load the sound for when the countdown hits 0
-  var noise = new Audio("gong.mp3");
-
   // Begins the timer, and checks whether it has reached zero
   function countDown(){
     if(secondsSecondDigit > 0){
@@ -32,6 +29,7 @@ $(document).ready(function(){
 
     // Checks to see if the count down has reached 0, and if it HAS, play sound
     if(minutesFirstDigit + minutesSecondDigit + secondsFirstDigit + secondsSecondDigit === 0){
+      var noise = new Audio("gong.mp3");
       noise.play();
       window.clearInterval(timerInterval);
     }
@@ -144,22 +142,20 @@ $(document).ready(function(){
 
     // Append the value from the form into a new list item on the page
     $(".notesList").append("<li class=\"todo\" ><span class=\"todoText\">" + $(".noteFormInput").val() + "</span><span class=\"complete\">√</span><span class=\"delete\">X</span></li>");
-    // Hide the form
-    $(".noteForm").css("visibility","hidden");
     // Remove the blur class
     $(".timer, .notes").removeClass("blur");
     // Reset the form, jus tin case there was information entered
     $(".noteForm > form").trigger("reset");
+    // Hide the form
+    $(".noteForm").css("visibility","hidden");
   });
 
   // If the form is no longer in focus, the form disappears and the blur effect is removed
   $(".noteForm").on("focusout", function(){
     // Hide the form
     $(this).css("visibility","hidden");
-    // Remove the blur class
-    $(".timer, .notes").removeClass("blur");
-    // Reset the form, jus tin case there was information entered
     $(".noteForm > form").trigger("reset");
+    $(".timer, .notes").removeClass("blur");
   });
 
 });
