@@ -1,89 +1,144 @@
+const minutes = document.querySelector('.minutes');
+const seconds = document.querySelector('.seconds');
+const startButton = document.querySelector('.startButton');
+const stopButton = document.querySelector('.stopButton');
+const breakButton = document.querySelector('.breakButton');
+let intervalId = null;
+
+function remainingTime(eTime){
+  const currentTime = Date.parse(new Date());
+
+  if(Math.floor( ((eTime-currentTime)/1000/60) % 60 ) >= 10){
+    minutes.textContent = `${Math.floor( ((eTime-currentTime)/1000/60) % 60 )}`;
+  } else {
+    minutes.textContent = `0${Math.floor( ((eTime-currentTime)/1000/60) % 60 )}`;
+  }
+
+  if(Math.floor( ((eTime-currentTime)/1000) % 60 ) >= 10){
+    seconds.textContent = `${Math.floor( ((eTime-currentTime)/1000) % 60 )}`;
+  } else {
+    seconds.textContent = `0${Math.floor( ((eTime-currentTime)/1000) % 60 )}`;
+  }
+
+  checkIfTimerIsZero();
+}
+
+function checkIfTimerIsZero(){
+  if((Number(minutes.textContent) + Number(seconds.textContent)) === 0){
+    var noise = new Audio("gong.mp3");
+    noise.play();
+    clearInterval(intervalId);
+  }
+}
+
+startButton.addEventListener('click', function(event){
+  clearInterval(intervalId);
+  minutes.textContent = "25";
+  seconds.textContent = "00";
+  const startTime = Date.parse(new Date());
+  const endTime = Date.parse(new Date(startTime + (25*60*1000)));
+  intervalId = setInterval(remainingTime, 1000, endTime);
+});
+
+breakButton.addEventListener('click', function(event){
+  clearInterval(intervalId);
+  minutes.textContent = "05";
+  seconds.textContent = "00";
+  const startTime = Date.parse(new Date());
+  const endTime = Date.parse(new Date(startTime + (5*60*1000)));
+  intervalId = setInterval(remainingTime, 1000, endTime);
+});
+
+stopButton.addEventListener('click', function(event){
+  clearInterval(intervalId);
+});
+
 $(document).ready(function(){
 
-  // Capture the current number of each of the html digits
-  var minutesFirstDigit = Number($(".minutesFirstDigit").text());
-  var minutesSecondDigit = Number($(".minutesSecondDigit").text());
-  var secondsFirstDigit = Number($(".secondsFirstDigit").text());
-  var secondsSecondDigit = Number($(".secondsSecondDigit").text());
-
-  // Captures the interval of the window timers, so that the intervals do not compound on each other
-  var timerInterval = 0;
-
-  // Begins the timer, and checks whether it has reached zero
-  function countDown(){
-    if(secondsSecondDigit > 0){
-      $(".secondsSecondDigit").html(--secondsSecondDigit);
-    } else if(secondsSecondDigit === 0 && secondsFirstDigit > 0){
-      $(".secondsFirstDigit").html(--secondsFirstDigit);
-      $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-    } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit > 0){
-      $(".minutesSecondDigit").html(--minutesSecondDigit);
-      $(".secondsFirstDigit").html(secondsFirstDigit = 5);
-      $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-    } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit === 0 && minutesFirstDigit > 0){
-      $(".minutesFirstDigit").html(--minutesFirstDigit);
-      $(".minutesSecondDigit").html(minutesSecondDigit = 9);
-      $(".secondsFirstDigit").html(secondsFirstDigit = 5);
-      $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-    }
-
-    // Checks to see if the count down has reached 0, and if it HAS, play sound
-    if(minutesFirstDigit + minutesSecondDigit + secondsFirstDigit + secondsSecondDigit === 0){
-      var noise = new Audio("gong.mp3");
-      noise.play();
-      window.clearInterval(timerInterval);
-    }
-  }
-
-  // Chnages the value of the digits variables and the html to 25
-  function start(){
-    $(".minutesFirstDigit").html(2);
-    minutesFirstDigit = 2;
-    $(".minutesSecondDigit").html(5);
-    minutesSecondDigit = 5;
-    $(".secondsFirstDigit").html(0);
-    secondsFirstDigit = 0;
-    $(".secondsSecondDigit").html(0);
-    secondsSecondDigit = 0;
-  }
-
-  // Chnages the value of the digits variables and the html to 5
-  function interval(){
-    $(".minutesFirstDigit").html(0);
-    minutesFirstDigit = 0;
-    $(".minutesSecondDigit").html(5);
-    minutesSecondDigit = 5;
-    $(".secondsFirstDigit").html(0);
-    secondsFirstDigit = 0;
-    $(".secondsSecondDigit").html(0);
-    secondsSecondDigit = 0;
-  }
-
-
-  // Buttons for timer
-
-  $(".startButton").on("click", function(){
-    // Change the timer to 25
-    start();
-    // Clear any window interval that may be occurring
-    window.clearInterval(timerInterval);
-    // Set the window interval to a second and have it call the countDown method
-    timerInterval = window.setInterval(countDown, 1000);
-  });
-
-  $(".breakButton").on("click", function(){
-    // Change the timer to 25
-    interval();
-    // Clear any window interval that may be occurring
-    window.clearInterval(timerInterval);
-    // Set the window interval to a second and have it call the countDown method
-    timerInterval = window.setInterval(countDown, 1000);
-  });
-
-  $(".stopButton").on("click", function(){
-    // Clear any window interval that may be occurring
-    window.clearInterval(timerInterval);
-  });
+  // // Capture the current number of each of the html digits
+  // var minutesFirstDigit = Number($(".minutesFirstDigit").text());
+  // var minutesSecondDigit = Number($(".minutesSecondDigit").text());
+  // var secondsFirstDigit = Number($(".secondsFirstDigit").text());
+  // var secondsSecondDigit = Number($(".secondsSecondDigit").text());
+  //
+  // // Captures the interval of the window timers, so that the intervals do not compound on each other
+  // var timerInterval = 0;
+  //
+  // // Begins the timer, and checks whether it has reached zero
+  // function countDown(){
+  //   if(secondsSecondDigit > 0){
+  //     $(".secondsSecondDigit").html(--secondsSecondDigit);
+  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit > 0){
+  //     $(".secondsFirstDigit").html(--secondsFirstDigit);
+  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
+  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit > 0){
+  //     $(".minutesSecondDigit").html(--minutesSecondDigit);
+  //     $(".secondsFirstDigit").html(secondsFirstDigit = 5);
+  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
+  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit === 0 && minutesFirstDigit > 0){
+  //     $(".minutesFirstDigit").html(--minutesFirstDigit);
+  //     $(".minutesSecondDigit").html(minutesSecondDigit = 9);
+  //     $(".secondsFirstDigit").html(secondsFirstDigit = 5);
+  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
+  //   }
+  //
+  //   // Checks to see if the count down has reached 0, and if it HAS, play sound
+  //   if(minutesFirstDigit + minutesSecondDigit + secondsFirstDigit + secondsSecondDigit === 0){
+  //     var noise = new Audio("gong.mp3");
+  //     noise.play();
+  //     window.clearInterval(timerInterval);
+  //   }
+  // }
+  //
+  // // Chnages the value of the digits variables and the html to 25
+  // function start(){
+  //   $(".minutesFirstDigit").html(2);
+  //   minutesFirstDigit = 2;
+  //   $(".minutesSecondDigit").html(5);
+  //   minutesSecondDigit = 5;
+  //   $(".secondsFirstDigit").html(0);
+  //   secondsFirstDigit = 0;
+  //   $(".secondsSecondDigit").html(0);
+  //   secondsSecondDigit = 0;
+  // }
+  //
+  // // Chnages the value of the digits variables and the html to 5
+  // function interval(){
+  //   $(".minutesFirstDigit").html(0);
+  //   minutesFirstDigit = 0;
+  //   $(".minutesSecondDigit").html(5);
+  //   minutesSecondDigit = 5;
+  //   $(".secondsFirstDigit").html(0);
+  //   secondsFirstDigit = 0;
+  //   $(".secondsSecondDigit").html(0);
+  //   secondsSecondDigit = 0;
+  // }
+  //
+  //
+  // // Buttons for timer
+  //
+  // $(".startButton").on("click", function(){
+  //   // Change the timer to 25
+  //   start();
+  //   // Clear any window interval that may be occurring
+  //   window.clearInterval(timerInterval);
+  //   // Set the window interval to a second and have it call the countDown method
+  //   timerInterval = window.setInterval(countDown, 1000);
+  // });
+  //
+  // $(".breakButton").on("click", function(){
+  //   // Change the timer to 25
+  //   interval();
+  //   // Clear any window interval that may be occurring
+  //   window.clearInterval(timerInterval);
+  //   // Set the window interval to a second and have it call the countDown method
+  //   timerInterval = window.setInterval(countDown, 1000);
+  // });
+  //
+  // $(".stopButton").on("click", function(){
+  //   // Clear any window interval that may be occurring
+  //   window.clearInterval(timerInterval);
+  // });
 
 
   // Behavior for the Notes list notes
