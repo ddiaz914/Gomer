@@ -1,4 +1,7 @@
+// Functionality for the timer
+
 // Grab each node for easy selection
+const timer = document.querySelector('.timer');
 const minutes = document.querySelector('.minutes');
 const seconds = document.querySelector('.seconds');
 const startButton = document.querySelector('.startButton');
@@ -77,164 +80,112 @@ stopButton.addEventListener('click', function(event){
   clearInterval(intervalId);
 });
 
-$(document).ready(function(){
+// Functionality for the Notes
 
-  // // Capture the current number of each of the html digits
-  // var minutesFirstDigit = Number($(".minutesFirstDigit").text());
-  // var minutesSecondDigit = Number($(".minutesSecondDigit").text());
-  // var secondsFirstDigit = Number($(".secondsFirstDigit").text());
-  // var secondsSecondDigit = Number($(".secondsSecondDigit").text());
-  //
-  // // Captures the interval of the window timers, so that the intervals do not compound on each other
-  // var timerInterval = 0;
-  //
-  // // Begins the timer, and checks whether it has reached zero
-  // function countDown(){
-  //   if(secondsSecondDigit > 0){
-  //     $(".secondsSecondDigit").html(--secondsSecondDigit);
-  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit > 0){
-  //     $(".secondsFirstDigit").html(--secondsFirstDigit);
-  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit > 0){
-  //     $(".minutesSecondDigit").html(--minutesSecondDigit);
-  //     $(".secondsFirstDigit").html(secondsFirstDigit = 5);
-  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-  //   } else if(secondsSecondDigit === 0 && secondsFirstDigit === 0 && minutesSecondDigit === 0 && minutesFirstDigit > 0){
-  //     $(".minutesFirstDigit").html(--minutesFirstDigit);
-  //     $(".minutesSecondDigit").html(minutesSecondDigit = 9);
-  //     $(".secondsFirstDigit").html(secondsFirstDigit = 5);
-  //     $(".secondsSecondDigit").html(secondsSecondDigit = 9);
-  //   }
-  //
-  //   // Checks to see if the count down has reached 0, and if it HAS, play sound
-  //   if(minutesFirstDigit + minutesSecondDigit + secondsFirstDigit + secondsSecondDigit === 0){
-  //     var noise = new Audio("gong.mp3");
-  //     noise.play();
-  //     window.clearInterval(timerInterval);
-  //   }
-  // }
-  //
-  // // Chnages the value of the digits variables and the html to 25
-  // function start(){
-  //   $(".minutesFirstDigit").html(2);
-  //   minutesFirstDigit = 2;
-  //   $(".minutesSecondDigit").html(5);
-  //   minutesSecondDigit = 5;
-  //   $(".secondsFirstDigit").html(0);
-  //   secondsFirstDigit = 0;
-  //   $(".secondsSecondDigit").html(0);
-  //   secondsSecondDigit = 0;
-  // }
-  //
-  // // Chnages the value of the digits variables and the html to 5
-  // function interval(){
-  //   $(".minutesFirstDigit").html(0);
-  //   minutesFirstDigit = 0;
-  //   $(".minutesSecondDigit").html(5);
-  //   minutesSecondDigit = 5;
-  //   $(".secondsFirstDigit").html(0);
-  //   secondsFirstDigit = 0;
-  //   $(".secondsSecondDigit").html(0);
-  //   secondsSecondDigit = 0;
-  // }
-  //
-  //
-  // // Buttons for timer
-  //
-  // $(".startButton").on("click", function(){
-  //   // Change the timer to 25
-  //   start();
-  //   // Clear any window interval that may be occurring
-  //   window.clearInterval(timerInterval);
-  //   // Set the window interval to a second and have it call the countDown method
-  //   timerInterval = window.setInterval(countDown, 1000);
-  // });
-  //
-  // $(".breakButton").on("click", function(){
-  //   // Change the timer to 25
-  //   interval();
-  //   // Clear any window interval that may be occurring
-  //   window.clearInterval(timerInterval);
-  //   // Set the window interval to a second and have it call the countDown method
-  //   timerInterval = window.setInterval(countDown, 1000);
-  // });
-  //
-  // $(".stopButton").on("click", function(){
-  //   // Clear any window interval that may be occurring
-  //   window.clearInterval(timerInterval);
-  // });
+// Grab each node for easy selection
+const notes = document.querySelector('.notes');
+const noteForm = document.querySelector('.noteForm');
+const noteFormInput = document.querySelector('.noteFormInput');
+const notesList = document.querySelector('.notesList');
+const addNoteButton = document.querySelector('.addNoteButton');
+const submitNoteButton = document.querySelector('.submitNoteButton');
 
+// This function creates a new note with event listeners attached to be inserted into the DOM
+function createNewNote(input){
+  let li = document.createElement('li');
+  li.classList.add('todo');
+  let noteSpan = document.createElement('span');
+  noteSpan.classList.add('todoText');
+  let checkmarkSpan = document.createElement('span');
+  checkmarkSpan.classList.add('complete');
+  let deleteSpan = document.createElement('span');
+  deleteSpan.classList.add('delete');
+  let noteText = document.createTextNode(input);
+  let deleteText = document.createTextNode('X');
+  let checkmarkText = document.createTextNode('√');
+  noteSpan.appendChild(noteText);
+  checkmarkSpan.appendChild(checkmarkText);
+  deleteSpan.appendChild(deleteText);
+  li.appendChild(noteSpan);
+  li.appendChild(checkmarkSpan);
+  li.appendChild(deleteSpan);
+  notesList.appendChild(li);
 
-  // Behavior for the Notes list notes
-
-  // Automatically hide the Notes list as soon as the page loads
-  $(".notesList").hide();
-
-  // Whenever a note is hovered on, the Complete and Delete icons appear, and disappear
-  $(".notesList").on("mouseenter", ".todo", function(){
+  // Whenever a note is hovered on, the Complete and Delete icons appear
+  li.addEventListener('mouseenter', function(event){
     // Removes the fadeOut class just in case it already has the class
-    $(this).children().not(".todoText").removeClass("fadeOut");
+    li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.remove('fadeOut'));
     // Adds a class of fadeIn
-    $(this).children().not(".todoText").addClass("fadeIn");
-  }).on("mouseleave", ".todo", function(){
+    li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.add('fadeIn'));
+  });
+
+  // Whenever a note is not hovered on, the Complete and Delete icons disappear
+  li.addEventListener('mouseleave', function(event){
     // Removes the fadeIn class just in case it already has the class
-    $(this).children().not(".todoText").removeClass("fadeIn");
-    // Adds a class of fadeIn
-    $(this).children().not(".todoText").addClass("fadeOut");
+    li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.remove('fadeIn'));
+    // Adds a class of fadeOut
+    li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.add('fadeOut'));
   });
 
   // When a user clicks the Complete icon, the note receives a strike-through
-  $(".notesList").on("click", ".complete", function(){
-    $(this).parent().children().first().addClass("strike");
+  checkmarkSpan.addEventListener('click', function(event){
+    this.parentNode.firstChild.classList.add('strike');
   });
 
   // When a user clicks the Delete icon, the note is deleted from the list
-  $(".notesList").on("click", ".delete", function(){
-    $(this).parent().remove();
+  deleteSpan.addEventListener('click', function(event){
+    this.parentNode.parentNode.removeChild(this.parentNode);
 
-    // After clicking the note, if there are notes left, add the instructions back onto the page and remove the Notes list
-    if($(".notesList").children().length === 0){
-      $(".notesList").hide();
-      $(".instructions").show();
+    // After clicking the note, if there are no notes left, remove the Notes list
+    if(notesList.children.length === 0){
+      notesList.style.display = 'none';
     }
   });
+}
 
-  // Buttons for Notes List
+// Automatically hide the Notes list as soon as the page loads
+notesList.style.display = 'none';
 
-  $(".addNoteButton").on("click", function(){
-    // Show the form for adding a note
-    $(".noteForm").css("visibility","visible");
-    // Blur everything behind the form
-    $(".timer, .notes").addClass("blur");
-    // Put the form into focus
-    $(".noteFormInput").focus();
-  });
+// Functionality for 'Add a Note' button
+addNoteButton.addEventListener('click', function(event){
+  // Show the form for adding a note
+  noteForm.style.visibility = 'visible';
+  // Blur everything behind the form
+  notes.classList.add('blur');
+  timer.classList.add('blur');
+  // Put the form into focus
+  noteFormInput.focus();
+});
 
-  $(".submitNoteButton").on("click", function(event){
-    event.preventDefault();
+// If the form is no longer in focus, the form disappears and the blur effect is removed
+noteForm.addEventListener('focusout', function(event){
+  // Hide the form
+  this.style.visibility = 'hidden';
+  // Unblur everything behind the form
+  notes.classList.remove('blur');
+  timer.classList.remove('blur');
+  // Reset the form
+  noteForm.reset();
+});
 
-    // The reason for this if statement, is because I only want these methods to fire when the list was originally 0, and not everytime the submit button is clicked
-    if($(".notesList").children().length === 0){
-      $(".instructions").hide();
-      $(".notesList").show();
-    }
+submitNoteButton.addEventListener('click', function(event){
+  event.preventDefault();
 
-    // Append the value from the form into a new list item on the page
-    $(".notesList").append("<li class=\"todo\" ><span class=\"todoText\">" + $(".noteFormInput").val() + "</span><span class=\"complete\">√</span><span class=\"delete\">X</span></li>");
-    // Remove the blur class
-    $(".timer, .notes").removeClass("blur");
-    // Reset the form, jus tin case there was information entered
-    $(".noteForm > form").trigger("reset");
-    // Hide the form
-    $(".noteForm").css("visibility","hidden");
-  });
+  // The reason for this if statement, is because I only want these methods to fire when the list was originally 0, and not everytime the submit button is clicked
+  if(notesList.children.length === 0){
+    notesList.style.display = 'inline';
+  }
 
-  // If the form is no longer in focus, the form disappears and the blur effect is removed
-  $(".noteForm").on("focusout", function(){
-    // Hide the form
-    $(this).css("visibility","hidden");
-    $(".noteForm > form").trigger("reset");
-    $(".timer, .notes").removeClass("blur");
-  });
+  // Append the value from the form into a new list item on the page
+  createNewNote(document.querySelector('.noteFormInput').value);
 
+  // Remove the blur class
+  notes.classList.remove('blur');
+  timer.classList.remove('blur');
+
+  // Reset the form, just in case there was information entered
+  noteForm.reset();
+
+  // Hide the form
+  noteForm.style.visibility = 'hidden';
 });
