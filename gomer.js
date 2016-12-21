@@ -13,6 +13,7 @@ let intervalId = null;
 
 // Update the html timer according to the time captured to overcome javascript throttling in inactive tabs
 function remainingTime(eTime){
+  
   // Capture the new current time each time the method is called
   const currentTime = Date.parse(new Date());
 
@@ -36,6 +37,7 @@ function remainingTime(eTime){
 
 // Check if the timer has reached zero
 function checkIfTimerIsZero(){
+
   // If the timer has reached zero, play the gong noise
   if((Number(minutes.textContent) + Number(seconds.textContent)) === 0){
     var noise = new Audio("gong.mp3");
@@ -46,36 +48,47 @@ function checkIfTimerIsZero(){
 
 // Check to see if the start button has been pushed
 startButton.addEventListener('click', function(event){
+
   // Clear any setInterval calls that are being made
   clearInterval(intervalId);
+
   // Change the minutes and seconds to 25
   minutes.textContent = "25";
   seconds.textContent = "00";
+
   // Save the time of when the timer starts
   const startTime = Date.parse(new Date());
+
   // Save the time of when it should end
   const endTime = Date.parse(new Date(startTime + (25*60*1000)));
+
   // Start the countdown
   intervalId = setInterval(remainingTime, 1000, endTime);
 });
 
 // Check to see if the break button has been pushed
 breakButton.addEventListener('click', function(event){
+
   // Clear any setInterval calls that are being made
   clearInterval(intervalId);
+
   // Change the minutes and seconds to 5
   minutes.textContent = "05";
   seconds.textContent = "00";
+
   // Save the time of when the timer starts
   const startTime = Date.parse(new Date());
+
   // Save the time of when it should end
   const endTime = Date.parse(new Date(startTime + (5*60*1000)));
+
   // Start the countdown
   intervalId = setInterval(remainingTime, 1000, endTime);
 });
 
 // Check to see if the stop button has been pushed
 stopButton.addEventListener('click', function(event){
+
   // Clear any setInterval calls that are being made
   clearInterval(intervalId);
 });
@@ -95,22 +108,28 @@ notesList.style.display = 'none';
 
 // Functionality for 'Add a Note' button
 addNoteButton.addEventListener('click', function(event){
+
   // Show the form for adding a note
   noteForm.style.visibility = 'visible';
+
   // Blur everything behind the form
   notes.classList.add('blur');
   timer.classList.add('blur');
+
   // Put the form into focus
   noteFormInput.focus();
 });
 
 // If the form is no longer in focus, the form disappears and the blur effect is removed
 noteForm.addEventListener('focusout', function(event){
+
   // Hide the form
   this.style.visibility = 'hidden';
+
   // Unblur everything behind the form
   notes.classList.remove('blur');
   timer.classList.remove('blur');
+
   // Reset the form
   noteForm.reset();
 });
@@ -143,27 +162,34 @@ function createNewNote(input){
 
   // Create an empty li element
   let li = document.createElement('li');
+
   // Give it a class of todo
   li.classList.add('todo');
 
   // Create and empty span element
   let noteSpan = document.createElement('span');
+
   // Give it a class of todoText
   noteSpan.classList.add('todoText');
+
   // Creates a text node for the note
   let noteText = document.createTextNode(input);
 
   // Create and empty span element
   let checkmarkSpan = document.createElement('span');
+
   // Give it a class of complete
   checkmarkSpan.classList.add('complete');
+
   // Creates a text node for the checkmark button
   let checkmarkText = document.createTextNode('√');
 
   // Create and empty span element
   let deleteSpan = document.createElement('span');
+
   // Give it a class of delete
   deleteSpan.classList.add('delete');
+
   // Creates a text node for the delete button
   let deleteText = document.createTextNode('X');
 
@@ -180,16 +206,20 @@ function createNewNote(input){
 
   // Whenever a note is hovered on, the Complete and Delete icons appear
   li.addEventListener('mouseenter', function(event){
+
     // Removes the fadeOut class just in case it already has the class
     li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.remove('fadeOut'));
+
     // Adds a class of fadeIn
     li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.add('fadeIn'));
   });
 
   // Whenever a note is not hovered on, the Complete and Delete icons disappear
   li.addEventListener('mouseleave', function(event){
+
     // Removes the fadeIn class just in case it already has the class
     li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.remove('fadeIn'));
+
     // Adds a class of fadeOut
     li.querySelectorAll('span:not(.todoText)').forEach(element => element.classList.add('fadeOut'));
   });
