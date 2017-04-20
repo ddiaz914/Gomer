@@ -13,7 +13,7 @@ let intervalId = null;
 
 // Update the html timer according to the time captured to overcome javascript throttling in inactive tabs
 function remainingTime(eTime){
-  
+
   // Capture the new current time each time the method is called
   const currentTime = Date.parse(new Date());
 
@@ -32,14 +32,14 @@ function remainingTime(eTime){
   }
 
   // Checks if the timer has reached zero, and if it has stop the setInterval
-  checkIfTimerIsZero();
+  checkIfTimerIsZero(eTime, currentTime);
 }
 
 // Check if the timer has reached zero
-function checkIfTimerIsZero(){
+function checkIfTimerIsZero(endTime, currTime){
 
   // If the timer has reached zero, play the gong noise
-  if((Number(minutes.textContent) + Number(seconds.textContent)) === 0){
+  if(endTime === currTime){
     var noise = new Audio("gong.mp3");
     noise.play();
     clearInterval(intervalId);
